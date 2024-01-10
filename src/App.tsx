@@ -1,14 +1,7 @@
-import React from 'react';
-import { Button, Flex } from 'antd';
+import React from "react";
 
-const App: React.FC = () => (
-  <Flex gap="small" wrap="wrap">
-    <Button type="primary">Primary Button</Button>
-    <Button>Default Button</Button>
-    <Button type="dashed">Dashed Button</Button>
-    <Button type="text">Text Button</Button>
-    <Button type="link">Link Button</Button>
-  </Flex>
-);
+const App: React.FC = () => {
+  return <div>this is app</div>
+};
 
 export default App;

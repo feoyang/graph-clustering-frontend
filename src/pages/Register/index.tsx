@@ -8,25 +8,16 @@ import {
   Row,
   Flex,
   Typography,
+  Space,
 } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./index.scss";
-import { tokenAtom, getUserInfo } from "../../models/stores/modules/user";
-import { useSetAtom } from "jotai";
 
-const onFinish = async (loginForm: {
-  username: string;
-  password: string;
-  rememberMe: boolean;
-}) => {
-  const res = await getUserInfo(loginForm);
-  if (res.code === 1) {
-    console.log("message:", res.message);
-  }
+const onFinish = (values: string) => {
+  console.log("Success:", values);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const onFinishFailed = (errorInfo: any) => {
+const onFinishFailed = (errorInfo: ValidateErrorEntity<string>) => {
   console.log("Failed:", errorInfo);
 };
 
@@ -38,7 +29,7 @@ type FieldType = {
 
 const { Title } = Typography;
 
-const Login: React.FC = () => {
+const Register: React.FC = () => {
   return (
     <>
       <Flex className="authorization" justify="center" align="center">
@@ -50,7 +41,7 @@ const Login: React.FC = () => {
                   level={2}
                   style={{ marginTop: "15px", marginBottom: "30px" }}
                 >
-                  Welcome back
+                  Register you account
                 </Title>
                 <Form
                   name="basic"
@@ -116,4 +107,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default Register;
