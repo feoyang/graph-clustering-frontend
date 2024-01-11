@@ -40,7 +40,9 @@ export const baseHttpFactory = <T extends AxiosInstance = AxiosInstance>(
   const reqInterceptor = Array.isArray(requestInterceptor) ? requestInterceptor : [];
   const resInterceptor = Array.isArray(responseInterceptor) ? responseInterceptor : [];
 
-  const instance = axios.create();
+  const instance = axios.create({
+    baseURL: 'http://localhost:8080', // 在这里设置根域名
+  });
 
   reqInterceptor.forEach(([
     onFulfilled = defaultOnFulfilled,

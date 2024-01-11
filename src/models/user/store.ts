@@ -1,14 +1,6 @@
-import { atom, useSetAtom } from "jotai";
-import { request } from "../../../utils";
-import { AxiosError } from 'axios';
+import { atom } from 'jotai';
+import { User } from '../../data/entities';
 
-const getUserInfo = async (loginForm: { username: string, password: string, rememberMe: boolean }) => {
-    const res = await request.post('/login', loginForm)
-    return res
-}
+const userAtom = atom<User | undefined>(undefined)
 
-// Jotai implementation
-const userAtom = atom<string>("");
-const tokenAtom = atom<string>("");
-
-export { userAtom, tokenAtom, getUserInfo };
+export { userAtom };

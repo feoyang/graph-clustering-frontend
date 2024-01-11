@@ -9,7 +9,7 @@ export const transformResponse = <T = any> (axiosResponse: AxiosResponse<IRespon
     const res = axiosResponse.data;
     const err = axiosResponse as unknown as Error;
 
-    if (res?.success) {
+    if (res?.code === 0) {
       return res?.data || {} as any;
     }
 

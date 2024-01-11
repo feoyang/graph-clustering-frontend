@@ -1,6 +1,6 @@
 import { safeStorage } from '../common/safe-storage.ts';
 
-const TOKEN_KEY = 'kjypt-token';
+const TOKEN_KEY = 'GraphClustering-token';
 
 export function getToken() {
   return safeStorage.getItem(TOKEN_KEY);

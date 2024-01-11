@@ -1,22 +1,24 @@
 import { request, transformResponse } from '../core/http.ts';
 
 interface RequestLoginParams {
-  username: string;
+  account: string;
   password: string;
-  rememberMe: boolean;
+  remember: boolean;
 }
 
-export async function requestLogin(params: RequestLoginParams) {
+const requestLogin = async (params: RequestLoginParams) => {
   const res = await request.post('/login', params);
   return transformResponse(res);
 }
 
 interface RequestRegisterParams {
-  username: string;
+  account: string;
   password: string;
 }
 
-export async function requestRegister(params: RequestRegisterParams) {
+const requestRegister = async (params: RequestRegisterParams) => {
   const res = await request.post('/register', params);
   return transformResponse(res);
 }
+
+export {requestLogin, requestRegister}

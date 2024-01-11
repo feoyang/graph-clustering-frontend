@@ -3,7 +3,7 @@ export const safeStorage = {
     try {
       return localStorage.getItem(key);
     } catch {
-      return null;
+      return undefined;
     }
   },
   setItem(key: string, value: string) {
