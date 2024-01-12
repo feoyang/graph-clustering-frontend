@@ -1,10 +1,11 @@
-import { Form, Input, Checkbox, Button, Typography, message } from "antd";
+import { Form, Input, Checkbox, Button, Typography, message, Flex } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { requestLogin } from "../../../services/requests/user";
+import { requestLogin } from "../../../../services/requests/user";
 import { useNavigate } from "react-router-dom";
 import { useOutletContext } from "react-router-dom";
 import { LoginContextType } from "../Layout";
-import { getToken, setToken } from "../../../authorization/token";
+import { getToken, setToken } from "../../../../authorization/token";
+import { Link } from "react-router-dom";
 
 type FieldType = {
   account?: string;
@@ -12,7 +13,7 @@ type FieldType = {
   remember?: string;
 };
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const formItemLayout = {
   wrapperCol: {
@@ -31,10 +32,14 @@ const Login: React.FC = () => {
     password: string;
     remember: boolean;
   }) => {
-    const res = await requestLogin(loginForm);
-    setToken(res.token);
-    navigate("/home");
-    message.success("登陆成功！");
+    try {
+      const res = await requestLogin(loginForm);
+      setToken(res.token);
+      navigate("/home");
+      message.success("登陆成功！");
+    } catch (err) {
+      message.error(err as string);
+    }
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -43,12 +48,12 @@ const Login: React.FC = () => {
   };
 
   const { loginState } = useOutletContext<LoginContextType>();
-  console.log("loginState.account: " + loginState.account);
-  console.log("loginState.password: " + loginState.password);
 
   return (
     <>
-      <Title level={2}>Welcome back</Title>
+      <Title className="title" level={2}>
+        Welcome back
+      </Title>
       <Form
         name="basic"
         initialValues={{
@@ -124,6 +129,15 @@ const Login: React.FC = () => {
           </Button>
         </Form.Item>
       </Form>
+      <Flex className="bottom-link" justify="center" align="center">
+        <Link to="#">找回密码</Link>
+        <span style={{ margin: "0 0.34rem" }}>|</span>
+        <Link to={"../register"}>快速注册</Link>
+        <Text className="back">
+          ➩&nbsp;
+          <Link to={"../../graph/upload"}>back</Link>
+        </Text>
+      </Flex>
     </>
   );
 };

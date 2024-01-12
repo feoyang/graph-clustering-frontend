@@ -1,24 +1,46 @@
-import Layout from "../pages/authorization/Layout";
-import Login from "../pages/authorization/Login";
-import Register from "../pages/authorization/Register";
-import Home from "../pages/home/Layout";
-
 import { createBrowserRouter } from "react-router-dom";
 import { Authorization } from "../authorization";
-// 配置路由实例
+import Tryout from "../pages/tryout/Layout";
+import Login from "../pages/tryout/authorization/Login";
+import Register from "../pages/tryout/authorization/Register";
+import User from "../pages/tryout/authorization/Layout";
+import Graph from "../pages/tryout/graph/Layout";
+import Upload from "../pages/tryout/graph/Upload";
+import Display from "../pages/tryout/graph/Display";
+import Home from "../pages/home/Layout";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: <Tryout />,
     children: [
       {
-        path: "/login",
-        element: <Login />,
+        path: "user",
+        element: <User />,
+        children: [
+          {
+            path: "login",
+            element: <Login />,
+          },
+          {
+            path: "register",
+            element: <Register />,
+          },
+        ],
       },
       {
-        path: "/register",
-        element: <Register />,
+        path: "graph",
+        element: <Graph />,
+        children: [
+          {
+            path: "upload",
+            element: <Upload />,
+          },
+          {
+            path: "display",
+            element: <Display />,
+          },
+        ],
       },
     ],
   },

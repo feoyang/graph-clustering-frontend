@@ -12,7 +12,6 @@ export const transformResponse = <T = any> (axiosResponse: AxiosResponse<IRespon
     if (res?.code === 0) {
       return res?.data || {} as any;
     }
-
     throw res.message || err || 'Unknown Error';
   } else {
     throw `${axiosResponse.status}: ${axiosResponse.statusText}`;

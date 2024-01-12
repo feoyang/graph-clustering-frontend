@@ -1,10 +1,10 @@
-import { Form, Input, Button, Typography, message } from "antd";
+import { Form, Input, Button, Typography, message, Flex } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { requestRegister } from "../../../services/requests/user";
+import { requestRegister } from "../../../../services/requests/user";
 import { useOutletContext } from "react-router-dom";
 import { LoginContextType } from "../Layout";
-
+import { Link } from "react-router-dom";
 const formItemLayout = {
   wrapperCol: {
     xs: { offset: 1, span: 22 },
@@ -21,7 +21,7 @@ type FieldType = {
   repassword?: string;
 };
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
@@ -47,7 +47,9 @@ const Register: React.FC = () => {
 
   return (
     <>
-      <Title level={2}>Create your account</Title>
+      <Title className="title" level={2}>
+        Create your account
+      </Title>
       <Form
         name="basic"
         initialValues={{ remember: true }}
@@ -136,6 +138,14 @@ const Register: React.FC = () => {
           </Button>
         </Form.Item>
       </Form>
+      <Flex className="bottom-link" justify="center" align="center">
+        <span>已有帐号，</span>
+        <Link to={"../login"}>直接登录</Link>
+        <Text className="back">
+                ➩&nbsp;
+                <Link to={"../../graph/upload"}>back</Link>
+              </Text>
+      </Flex>
     </>
   );
 };
