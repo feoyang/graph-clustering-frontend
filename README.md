@@ -1,7 +1,5 @@
 # React + TypeScript + Vite
 
-## Usage
-
 Install dependencies:
 
 ```
