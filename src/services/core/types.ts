@@ -11,12 +11,31 @@ export interface IHeaders {
 }
 
 export interface IResponse<T> {
-
   /**
    * 是否成功
    */
   success: boolean;
+  /**
+   * 对应业务状态码
+   */
+  code: number;
 
+  /**
+   * message 直接提示给用户
+   */
+  message: string;
+
+  /**
+   * 响应体
+   */
+  data: T;
+}
+
+export interface IError<T> {
+  /**
+   * 是否成功
+   */
+  success: boolean;
   /**
    * 对应业务状态码
    */

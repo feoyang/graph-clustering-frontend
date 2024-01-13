@@ -1,21 +1,29 @@
-import type { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { type AxiosRequestConfig, type AxiosResponse, AxiosError } from 'axios';
 import type { IResponse } from './types';
 import { httpFactory } from './fetcher';
+import { message } from 'antd';
 
 export const http = httpFactory();
 
-export const transformResponse = <T = any> (axiosResponse: AxiosResponse<IResponse<T>>): T => {
-  if (axiosResponse.status >= 200 && axiosResponse.status < 300) {
-    const res = axiosResponse.data;
-    const err = axiosResponse as unknown as Error;
 
-    if (res?.code === 0) {
-      return res?.data || {} as any;
-    }
-    throw res.message || err || 'Unknown Error';
-  } else {
-    throw `${axiosResponse.status}: ${axiosResponse.statusText}`;
+// 自定义类型谓词函数用于检查是否是 AxiosResponse
+function isAxiosResponse<T = any>(variable: any): variable is AxiosResponse<IResponse<T>> {
+  return variable && variable.config && variable.data !== undefined;
+}
+
+// 自定义类型谓词函数用于检查是否是 AxiosError
+function isAxiosError<T = any>(variable: any): variable is AxiosError<IResponse<T>> {
+  return variable && variable.isAxiosError === true;
+}
+
+export const transformResponse = <T = any> (axiosResponse: AxiosResponse<IResponse<T>> | AxiosError<IResponse<T>>): IResponse<T> | undefined => {
+  // 检查参数的类型是 AxiosResponse 还是 AxiosError
+  if (isAxiosResponse<IResponse<T>>(axiosResponse)) {
+    return axiosResponse.data?.data || {} as any;
+  } else if (isAxiosError<IResponse<T>>(axiosResponse)) {
+    return axiosResponse.response?.data || {} as any;
   }
+  throw new Error('未知错误');
 };
 
 const del = async <T = any>(url: string, config?: AxiosRequestConfig) => {

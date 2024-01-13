@@ -5,6 +5,8 @@ import { requestRegister } from "../../../../services/requests/user";
 import { useOutletContext } from "react-router-dom";
 import { LoginContextType } from "../Layout";
 import { Link } from "react-router-dom";
+import ReCAPTCHA from "react-google-recaptcha";
+import { atom, useAtom } from "jotai";
 const formItemLayout = {
   wrapperCol: {
     xs: { offset: 1, span: 22 },
@@ -19,10 +21,12 @@ type FieldType = {
   account?: string;
   password?: string;
   repassword?: string;
+  verification?: boolean;
 };
 
 const { Title, Text } = Typography;
-
+const verifiedAtom = atom<boolean>(false);
+const accountPasswordFinishedAtom = atom<boolean>(false);
 const Register: React.FC = () => {
   const navigate = useNavigate();
   const { setLoginState } = useOutletContext<LoginContextType>();
@@ -31,18 +35,34 @@ const Register: React.FC = () => {
     account: string;
     password: string;
   }) => {
-    const res = await requestRegister(registerForm);
-    setLoginState({
-      account: registerForm.account,
-      password: registerForm.password,
-    });
-    message.success("注册成功!");
-    navigate("/login");
+    setAccountPasswordFinished(true);
+    if (verified === true) {
+      const { account, password } = registerForm;
+      const res = await requestRegister({ account, password });
+      if (res?.success === true) {
+        setLoginState({
+          account: registerForm.account,
+          password: registerForm.password,
+        });
+        message.success(res?.message);
+        navigate("/user/login");
+      } else {
+        message.error(res?.message);
+      }
+    }
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
+  };
+
+  const [verified, setVerified] = useAtom(verifiedAtom);
+  const [accountPasswordFinished, setAccountPasswordFinished] = useAtom(
+    accountPasswordFinishedAtom
+  );
+  const onChange = (value) => {
+    setVerified(true);
   };
 
   return (
@@ -132,6 +152,23 @@ const Register: React.FC = () => {
             prefix={<LockOutlined />}
           />
         </Form.Item>
+        {accountPasswordFinished === true && (
+          <Form.Item<FieldType>
+            name="verification"
+            rules={[
+              {
+                required: true,
+                message: "Please confirm!",
+              },
+            ]}
+          >
+            <ReCAPTCHA
+              sitekey="6LcUu08pAAAAAHJlxIcfglQIctmsSHF-LOKC0ZGB"
+              onChange={onChange}
+            />
+          </Form.Item>
+        )}
+
         <Form.Item<FieldType> style={{ marginBottom: "1rem" }}>
           <Button className="authorization-button" htmlType="submit">
             Submit
@@ -142,9 +179,9 @@ const Register: React.FC = () => {
         <span>已有帐号，</span>
         <Link to={"../login"}>直接登录</Link>
         <Text className="back">
-                ➩&nbsp;
-                <Link to={"../../graph/upload"}>back</Link>
-              </Text>
+          ➩&nbsp;
+          <Link to={"../../graph/upload"}>back</Link>
+        </Text>
       </Flex>
     </>
   );

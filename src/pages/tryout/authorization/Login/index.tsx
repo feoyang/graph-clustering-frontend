@@ -4,7 +4,7 @@ import { requestLogin } from "../../../../services/requests/user";
 import { useNavigate } from "react-router-dom";
 import { useOutletContext } from "react-router-dom";
 import { LoginContextType } from "../Layout";
-import { getToken, setToken } from "../../../../authorization/token";
+import { setToken } from "../../../../authorization/token";
 import { Link } from "react-router-dom";
 
 type FieldType = {
@@ -33,12 +33,15 @@ const Login: React.FC = () => {
     remember: boolean;
   }) => {
     try {
+      console.log("loginForm: " + loginForm);
       const res = await requestLogin(loginForm);
-      setToken(res.token);
+      console.log("res: " + res);
+
+      setToken(res);
       navigate("/home");
       message.success("登陆成功！");
     } catch (err) {
-      message.error(err as string);
+      console.log("err: " + JSON.stringify(err));
     }
   };
 

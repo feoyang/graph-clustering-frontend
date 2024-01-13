@@ -19,7 +19,7 @@ const httpRequestInterceptorFactory = () => {
       ...config,
       headers: {
         ...headers,
-        ...token ? { Authorization: `JWT ${token}` } : {},
+        ...token ? { Authorization: `Bear ${token}` } : {},
       },
     } as InternalAxiosRequestConfig;
   };

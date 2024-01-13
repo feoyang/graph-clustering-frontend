@@ -24,59 +24,111 @@
       .ant-row {
         width: 100%;
         height: 100%;
-
         .ant-col {
-          position: relative;
-        }
-
-        .content {
-          width: 100%;
-          height: 100%;
-          position: absolute;
-          top: 43%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-
-          .title {
-            font-size: 4rem;
-            font-weight: bold;
-            text-align: center;
-            color: white;
-            background-image: linear-gradient(315deg, #6772ff 0, #00f9e5 100%);
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 5rem;
-          }
-
-          .upload-button {
-            width: 12rem;
-            height: 3.5rem;
-            font-size: 1.3rem;
-            margin-bottom: 6rem;
-          }
-
-          .features {
-            font-size: 1.1rem;
-
-            .ant-typography {
+          .content {
+            width: 100%;
+            height: 100%;
+            .title {
+              font-size: 4rem;
+              font-weight: bold;
+              text-align: center;
               color: white;
-              margin-bottom: 0.3rem;
+              background-image: linear-gradient(315deg, #6772ff 0, #00f9e5 100%);
+              background-clip: text;
+              color: transparent;
+              margin-top: 1rem;
+              margin-bottom: 4.5rem;
             }
-            a {
-              width: 3rem;
-              height: 1.5rem;
-              color: #6eb3ec;
-              transition: color 0.1s; /* 添加过渡效果 */
+  
+            .upload-dragger {
+              width: 16.5rem;
+              margin-bottom: 4.5rem;
+  
+              .ant-upload-btn {
+                width: 100%;
+                height: 100%;
+                padding: 1rem;
+                border: 0.2rem dashed #6eb3ec;
+                background: rgba(255, 255, 255, 0.1);
+                transition: 0.3s;
+                .ant-upload-drag-icon {
+                  margin-top: 0.6rem;
+                  margin-bottom: 0.8rem;
+                  svg {
+                    width: 4rem;
+                    height: 4rem;
+                  }
+                }
+                .ant-upload-text {
+                  color: #ffffff;
+                  font-size: 1.2rem;
+                }
+                .ant-upload-hint {
+                  color: #d1d1d1;
+                  margin-top: 0rem;
+                  margin-bottom: 0.2rem;
+                }
+              }
             }
-            a:hover {
-              color: rgb(188, 231, 239); /* 鼠标悬停时的颜色 */
+  
+            .features {
+              margin-bottom: 2rem;
+              .ant-typography {
+                font-size: 0.9rem;
+                color: white;
+                margin-bottom: 0.3rem;
+              }
+              a {
+                width: 3rem;
+                height: 1.5rem;
+                color: #6eb3ec;
+                transition: color 0.1s; /* 添加过渡效果 */
+              }
+              a:hover {
+                color: rgb(188, 231, 239); /* 鼠标悬停时的颜色 */
+              }
+            }
+            @media screen and (min-height: 800px) {
+              .title {
+                margin-top: 5rem;
+                font-size: 4.3rem;
+                margin-bottom: 6rem;
+              }
+              .upload-dragger{
+                width: 18.6rem;
+                margin-bottom: 7rem;
+                .ant-upload-btn {
+                  padding: 1.3rem;
+                  .ant-upload-text {
+                    font-size: 1.3rem;
+                  }
+                  .ant-upload-hint {
+                    font-size: 1.0rem;
+                    color: #d1d1d1;
+                    margin-top: 0rem;
+                  }
+                }
+
+              }
+              .features  {
+                margin-bottom: 8rem;
+                .ant-typography {
+                  font-size: 0.93rem;
+                }
+              }
             }
           }
+
+            
+           
         }
+        
+
+       
       }
     }
   }
-
+ 
   .user {
     width: 100%;
     height: 100%;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   DesktopOutlined,
   FileOutlined,
@@ -9,7 +9,12 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Breadcrumb, Button, Layout, Menu, theme } from "antd";
+import { Breadcrumb, Button, Layout, Menu, message, theme } from "antd";
+import { requestUserProfile } from "../../../services/requests/user";
+import { useUser, useSetUser } from "../../../models/user/hooks";
+import { User } from "../../../data/entities";
+import { setToken, clearToken } from "../../../authorization/token";
+import { useNavigate } from "react-router-dom";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -41,17 +46,39 @@ const items: MenuItem[] = [
     getItem("Team 1", "6"),
     getItem("Team 2", "8"),
   ]),
-  getItem("Files", "9", <FileOutlined />),
+  getItem("user", "9", <FileOutlined />),
 ];
 
-const App: React.FC = () => {
+const Home: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const navigate = useNavigate();
+  const setUser = useSetUser(); // 调用 useSetUser
+  const user = useUser(); // 调用 useSetUser
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const res = await requestUserProfile();
+        setUser(res as User);
+      } catch (err) {
+        message.error(err as string);
+      }
+    };
+    fetchUserProfile();
+  }, []);
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
+      <button
+        onClick={() => {
+          setUser(undefined);
+          clearToken();
+          navigate("/user/login");
+        }}
+      ></button>
       <Sider
         trigger={null}
         collapsible
@@ -92,4 +119,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default Home;

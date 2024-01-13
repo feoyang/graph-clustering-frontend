@@ -10,6 +10,6 @@ export function Authorization({ children }: AuthorizationProps) {
   if (token) {
     return <>{children}</>;
   } else {
-    return <Navigate to="/login" />;
+    return <Navigate to="/user/login" />;
   }
 }
